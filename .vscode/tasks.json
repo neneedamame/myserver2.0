@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "serverdbg",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g", 
+                "main.cpp", 
+                "Server.cpp",
+                "mypb.pb.cc",
+                "-lprotobuf",
+                "-o", 
+                "server.out"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
