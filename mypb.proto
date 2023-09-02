@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package mypb;
+
+message dataHeader{
+	RequestType request = 1;
+	int32 bodysize = 2;
+}
+
+message dataBody_login{
+	string user = 1;
+	string password = 2;
+}
+
+message dataBody_getdata{
+	string key = 1;
+}
+
+enum RequestType{
+	REQUEST_TYPE_LOGIN = 0;
+	REQUEST_TYPE_GETDATA = 1;
+}
