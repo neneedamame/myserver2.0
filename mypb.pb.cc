@@ -23,8 +23,8 @@ namespace _pbi = _pb::internal;
 namespace mypb {
 PROTOBUF_CONSTEXPR dataHeader::dataHeader(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.request_)*/0
-  , /*decltype(_impl_.bodysize_)*/0
+    /*decltype(_impl_.bodysize_)*/uint64_t{0u}
+  , /*decltype(_impl_.request_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct dataHeaderDefaultTypeInternal {
   PROTOBUF_CONSTEXPR dataHeaderDefaultTypeInternal()
@@ -35,20 +35,20 @@ struct dataHeaderDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 dataHeaderDefaultTypeInternal _dataHeader_default_instance_;
-PROTOBUF_CONSTEXPR dataBody_login::dataBody_login(
+PROTOBUF_CONSTEXPR dataBody_login_register::dataBody_login_register(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.user_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.username_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.password_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct dataBody_loginDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR dataBody_loginDefaultTypeInternal()
+struct dataBody_login_registerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR dataBody_login_registerDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~dataBody_loginDefaultTypeInternal() {}
+  ~dataBody_login_registerDefaultTypeInternal() {}
   union {
-    dataBody_login _instance;
+    dataBody_login_register _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 dataBody_loginDefaultTypeInternal _dataBody_login_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 dataBody_login_registerDefaultTypeInternal _dataBody_login_register_default_instance_;
 PROTOBUF_CONSTEXPR dataBody_getdata::dataBody_getdata(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.key_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -77,13 +77,13 @@ const uint32_t TableStruct_mypb_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::mypb::dataHeader, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::mypb::dataHeader, _impl_.bodysize_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::mypb::dataBody_login, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::mypb::dataBody_login_register, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::mypb::dataBody_login, _impl_.user_),
-  PROTOBUF_FIELD_OFFSET(::mypb::dataBody_login, _impl_.password_),
+  PROTOBUF_FIELD_OFFSET(::mypb::dataBody_login_register, _impl_.username_),
+  PROTOBUF_FIELD_OFFSET(::mypb::dataBody_login_register, _impl_.password_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::mypb::dataBody_getdata, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -94,28 +94,29 @@ const uint32_t TableStruct_mypb_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::mypb::dataHeader)},
-  { 8, -1, -1, sizeof(::mypb::dataBody_login)},
+  { 8, -1, -1, sizeof(::mypb::dataBody_login_register)},
   { 16, -1, -1, sizeof(::mypb::dataBody_getdata)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::mypb::_dataHeader_default_instance_._instance,
-  &::mypb::_dataBody_login_default_instance_._instance,
+  &::mypb::_dataBody_login_register_default_instance_._instance,
   &::mypb::_dataBody_getdata_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_mypb_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\nmypb.proto\022\004mypb\"B\n\ndataHeader\022\"\n\007requ"
   "est\030\001 \001(\0162\021.mypb.RequestType\022\020\n\010bodysize"
-  "\030\002 \001(\005\"0\n\016dataBody_login\022\014\n\004user\030\001 \001(\t\022\020"
-  "\n\010password\030\002 \001(\t\"\037\n\020dataBody_getdata\022\013\n\003"
-  "key\030\001 \001(\t*\?\n\013RequestType\022\026\n\022REQUEST_TYPE"
-  "_LOGIN\020\000\022\030\n\024REQUEST_TYPE_GETDATA\020\001b\006prot"
+  "\030\002 \001(\006\"=\n\027dataBody_login_register\022\020\n\010use"
+  "rname\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"\037\n\020dataBod"
+  "y_getdata\022\013\n\003key\030\001 \001(\t*Z\n\013RequestType\022\026\n"
+  "\022REQUEST_TYPE_LOGIN\020\000\022\030\n\024REQUEST_TYPE_GE"
+  "TDATA\020\001\022\031\n\025REQUEST_TYPE_REGISTER\020\002b\006prot"
   "o3"
   ;
 static ::_pbi::once_flag descriptor_table_mypb_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_mypb_2eproto = {
-    false, false, 242, descriptor_table_protodef_mypb_2eproto,
+    false, false, 282, descriptor_table_protodef_mypb_2eproto,
     "mypb.proto",
     &descriptor_table_mypb_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_mypb_2eproto::offsets,
@@ -137,6 +138,7 @@ bool RequestType_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
+    case 2:
       return true;
     default:
       return false;
@@ -160,14 +162,14 @@ dataHeader::dataHeader(const dataHeader& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   dataHeader* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.request_){}
-    , decltype(_impl_.bodysize_){}
+      decltype(_impl_.bodysize_){}
+    , decltype(_impl_.request_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.request_, &from._impl_.request_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.bodysize_) -
-    reinterpret_cast<char*>(&_impl_.request_)) + sizeof(_impl_.bodysize_));
+  ::memcpy(&_impl_.bodysize_, &from._impl_.bodysize_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.request_) -
+    reinterpret_cast<char*>(&_impl_.bodysize_)) + sizeof(_impl_.request_));
   // @@protoc_insertion_point(copy_constructor:mypb.dataHeader)
 }
 
@@ -176,8 +178,8 @@ inline void dataHeader::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.request_){0}
-    , decltype(_impl_.bodysize_){0}
+      decltype(_impl_.bodysize_){uint64_t{0u}}
+    , decltype(_impl_.request_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -205,9 +207,9 @@ void dataHeader::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.request_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.bodysize_) -
-      reinterpret_cast<char*>(&_impl_.request_)) + sizeof(_impl_.bodysize_));
+  ::memset(&_impl_.bodysize_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.request_) -
+      reinterpret_cast<char*>(&_impl_.bodysize_)) + sizeof(_impl_.request_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -226,11 +228,11 @@ const char* dataHeader::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // int32 bodysize = 2;
+      // fixed64 bodysize = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.bodysize_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 17)) {
+          _impl_.bodysize_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<uint64_t>(ptr);
+          ptr += sizeof(uint64_t);
         } else
           goto handle_unusual;
         continue;
@@ -270,10 +272,10 @@ uint8_t* dataHeader::_InternalSerialize(
       1, this->_internal_request(), target);
   }
 
-  // int32 bodysize = 2;
+  // fixed64 bodysize = 2;
   if (this->_internal_bodysize() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_bodysize(), target);
+    target = ::_pbi::WireFormatLite::WriteFixed64ToArray(2, this->_internal_bodysize(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -292,15 +294,15 @@ size_t dataHeader::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // fixed64 bodysize = 2;
+  if (this->_internal_bodysize() != 0) {
+    total_size += 1 + 8;
+  }
+
   // .mypb.RequestType request = 1;
   if (this->_internal_request() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_request());
-  }
-
-  // int32 bodysize = 2;
-  if (this->_internal_bodysize() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_bodysize());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -321,11 +323,11 @@ void dataHeader::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_request() != 0) {
-    _this->_internal_set_request(from._internal_request());
-  }
   if (from._internal_bodysize() != 0) {
     _this->_internal_set_bodysize(from._internal_bodysize());
+  }
+  if (from._internal_request() != 0) {
+    _this->_internal_set_request(from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -345,11 +347,11 @@ void dataHeader::InternalSwap(dataHeader* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(dataHeader, _impl_.bodysize_)
-      + sizeof(dataHeader::_impl_.bodysize_)
-      - PROTOBUF_FIELD_OFFSET(dataHeader, _impl_.request_)>(
-          reinterpret_cast<char*>(&_impl_.request_),
-          reinterpret_cast<char*>(&other->_impl_.request_));
+      PROTOBUF_FIELD_OFFSET(dataHeader, _impl_.request_)
+      + sizeof(dataHeader::_impl_.request_)
+      - PROTOBUF_FIELD_OFFSET(dataHeader, _impl_.bodysize_)>(
+          reinterpret_cast<char*>(&_impl_.bodysize_),
+          reinterpret_cast<char*>(&other->_impl_.bodysize_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata dataHeader::GetMetadata() const {
@@ -360,31 +362,31 @@ void dataHeader::InternalSwap(dataHeader* other) {
 
 // ===================================================================
 
-class dataBody_login::_Internal {
+class dataBody_login_register::_Internal {
  public:
 };
 
-dataBody_login::dataBody_login(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+dataBody_login_register::dataBody_login_register(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:mypb.dataBody_login)
+  // @@protoc_insertion_point(arena_constructor:mypb.dataBody_login_register)
 }
-dataBody_login::dataBody_login(const dataBody_login& from)
+dataBody_login_register::dataBody_login_register(const dataBody_login_register& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  dataBody_login* const _this = this; (void)_this;
+  dataBody_login_register* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_){}
+      decltype(_impl_.username_){}
     , decltype(_impl_.password_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.user_.InitDefault();
+  _impl_.username_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_.Set("", GetArenaForAllocation());
+    _impl_.username_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_user().empty()) {
-    _this->_impl_.user_.Set(from._internal_user(), 
+  if (!from._internal_username().empty()) {
+    _this->_impl_.username_.Set(from._internal_username(), 
       _this->GetArenaForAllocation());
   }
   _impl_.password_.InitDefault();
@@ -395,21 +397,21 @@ dataBody_login::dataBody_login(const dataBody_login& from)
     _this->_impl_.password_.Set(from._internal_password(), 
       _this->GetArenaForAllocation());
   }
-  // @@protoc_insertion_point(copy_constructor:mypb.dataBody_login)
+  // @@protoc_insertion_point(copy_constructor:mypb.dataBody_login_register)
 }
 
-inline void dataBody_login::SharedCtor(
+inline void dataBody_login_register::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_){}
+      decltype(_impl_.username_){}
     , decltype(_impl_.password_){}
     , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.user_.InitDefault();
+  _impl_.username_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_.Set("", GetArenaForAllocation());
+    _impl_.username_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.password_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -417,8 +419,8 @@ inline void dataBody_login::SharedCtor(
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
-dataBody_login::~dataBody_login() {
-  // @@protoc_insertion_point(destructor:mypb.dataBody_login)
+dataBody_login_register::~dataBody_login_register() {
+  // @@protoc_insertion_point(destructor:mypb.dataBody_login_register)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -426,40 +428,40 @@ dataBody_login::~dataBody_login() {
   SharedDtor();
 }
 
-inline void dataBody_login::SharedDtor() {
+inline void dataBody_login_register::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.user_.Destroy();
+  _impl_.username_.Destroy();
   _impl_.password_.Destroy();
 }
 
-void dataBody_login::SetCachedSize(int size) const {
+void dataBody_login_register::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void dataBody_login::Clear() {
-// @@protoc_insertion_point(message_clear_start:mypb.dataBody_login)
+void dataBody_login_register::Clear() {
+// @@protoc_insertion_point(message_clear_start:mypb.dataBody_login_register)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.user_.ClearToEmpty();
+  _impl_.username_.ClearToEmpty();
   _impl_.password_.ClearToEmpty();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* dataBody_login::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* dataBody_login_register::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string user = 1;
+      // string username = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_user();
+          auto str = _internal_mutable_username();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "mypb.dataBody_login.user"));
+          CHK_(::_pbi::VerifyUTF8(str, "mypb.dataBody_login_register.username"));
         } else
           goto handle_unusual;
         continue;
@@ -469,7 +471,7 @@ const char* dataBody_login::_InternalParse(const char* ptr, ::_pbi::ParseContext
           auto str = _internal_mutable_password();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "mypb.dataBody_login.password"));
+          CHK_(::_pbi::VerifyUTF8(str, "mypb.dataBody_login_register.password"));
         } else
           goto handle_unusual;
         continue;
@@ -496,20 +498,20 @@ failure:
 #undef CHK_
 }
 
-uint8_t* dataBody_login::_InternalSerialize(
+uint8_t* dataBody_login_register::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:mypb.dataBody_login)
+  // @@protoc_insertion_point(serialize_to_array_start:mypb.dataBody_login_register)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string user = 1;
-  if (!this->_internal_user().empty()) {
+  // string username = 1;
+  if (!this->_internal_username().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user().data(), static_cast<int>(this->_internal_user().length()),
+      this->_internal_username().data(), static_cast<int>(this->_internal_username().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "mypb.dataBody_login.user");
+      "mypb.dataBody_login_register.username");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_user(), target);
+        1, this->_internal_username(), target);
   }
 
   // string password = 2;
@@ -517,7 +519,7 @@ uint8_t* dataBody_login::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_password().data(), static_cast<int>(this->_internal_password().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "mypb.dataBody_login.password");
+      "mypb.dataBody_login_register.password");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_password(), target);
   }
@@ -526,23 +528,23 @@ uint8_t* dataBody_login::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:mypb.dataBody_login)
+  // @@protoc_insertion_point(serialize_to_array_end:mypb.dataBody_login_register)
   return target;
 }
 
-size_t dataBody_login::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:mypb.dataBody_login)
+size_t dataBody_login_register::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:mypb.dataBody_login_register)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string user = 1;
-  if (!this->_internal_user().empty()) {
+  // string username = 1;
+  if (!this->_internal_username().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_user());
+        this->_internal_username());
   }
 
   // string password = 2;
@@ -555,23 +557,23 @@ size_t dataBody_login::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData dataBody_login::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData dataBody_login_register::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    dataBody_login::MergeImpl
+    dataBody_login_register::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*dataBody_login::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*dataBody_login_register::GetClassData() const { return &_class_data_; }
 
 
-void dataBody_login::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<dataBody_login*>(&to_msg);
-  auto& from = static_cast<const dataBody_login&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:mypb.dataBody_login)
+void dataBody_login_register::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<dataBody_login_register*>(&to_msg);
+  auto& from = static_cast<const dataBody_login_register&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:mypb.dataBody_login_register)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_user().empty()) {
-    _this->_internal_set_user(from._internal_user());
+  if (!from._internal_username().empty()) {
+    _this->_internal_set_username(from._internal_username());
   }
   if (!from._internal_password().empty()) {
     _this->_internal_set_password(from._internal_password());
@@ -579,25 +581,25 @@ void dataBody_login::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void dataBody_login::CopyFrom(const dataBody_login& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:mypb.dataBody_login)
+void dataBody_login_register::CopyFrom(const dataBody_login_register& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:mypb.dataBody_login_register)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool dataBody_login::IsInitialized() const {
+bool dataBody_login_register::IsInitialized() const {
   return true;
 }
 
-void dataBody_login::InternalSwap(dataBody_login* other) {
+void dataBody_login_register::InternalSwap(dataBody_login_register* other) {
   using std::swap;
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_, lhs_arena,
-      &other->_impl_.user_, rhs_arena
+      &_impl_.username_, lhs_arena,
+      &other->_impl_.username_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.password_, lhs_arena,
@@ -605,7 +607,7 @@ void dataBody_login::InternalSwap(dataBody_login* other) {
   );
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata dataBody_login::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata dataBody_login_register::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_mypb_2eproto_getter, &descriptor_table_mypb_2eproto_once,
       file_level_metadata_mypb_2eproto[1]);
@@ -821,9 +823,9 @@ template<> PROTOBUF_NOINLINE ::mypb::dataHeader*
 Arena::CreateMaybeMessage< ::mypb::dataHeader >(Arena* arena) {
   return Arena::CreateMessageInternal< ::mypb::dataHeader >(arena);
 }
-template<> PROTOBUF_NOINLINE ::mypb::dataBody_login*
-Arena::CreateMaybeMessage< ::mypb::dataBody_login >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::mypb::dataBody_login >(arena);
+template<> PROTOBUF_NOINLINE ::mypb::dataBody_login_register*
+Arena::CreateMaybeMessage< ::mypb::dataBody_login_register >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::mypb::dataBody_login_register >(arena);
 }
 template<> PROTOBUF_NOINLINE ::mypb::dataBody_getdata*
 Arena::CreateMaybeMessage< ::mypb::dataBody_getdata >(Arena* arena) {

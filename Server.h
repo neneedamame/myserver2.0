@@ -8,6 +8,7 @@
 #include <string>
 #include <unistd.h>
 #include <fcntl.h>
+#include "mypb.pb.h"
 
 
 //·Ç×èÈûI/O + ±ßÔµ´¥·¢
@@ -30,6 +31,8 @@ private:
 	struct epoll_event m_events[10240];
 	int m_flags;
 
+	int m_len_header;
+
 public:
 	static size_t m_len_header;
 
@@ -45,6 +48,10 @@ public:
 	void init();
 	void run();
 	void cnn_accept();
+
 	static void handle_request(int client_fd, char* buffer);    
-	
+	static void exe_login(int len, char* buffer);
+	static void exe_register(int len, char* buffer);
+	static void exe_getdata(int len, char* buffer);
+	static void close_cnn(int client_fd);
 };

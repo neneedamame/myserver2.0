@@ -49,16 +49,16 @@ namespace mypb {
 class dataBody_getdata;
 struct dataBody_getdataDefaultTypeInternal;
 extern dataBody_getdataDefaultTypeInternal _dataBody_getdata_default_instance_;
-class dataBody_login;
-struct dataBody_loginDefaultTypeInternal;
-extern dataBody_loginDefaultTypeInternal _dataBody_login_default_instance_;
+class dataBody_login_register;
+struct dataBody_login_registerDefaultTypeInternal;
+extern dataBody_login_registerDefaultTypeInternal _dataBody_login_register_default_instance_;
 class dataHeader;
 struct dataHeaderDefaultTypeInternal;
 extern dataHeaderDefaultTypeInternal _dataHeader_default_instance_;
 }  // namespace mypb
 PROTOBUF_NAMESPACE_OPEN
 template<> ::mypb::dataBody_getdata* Arena::CreateMaybeMessage<::mypb::dataBody_getdata>(Arena*);
-template<> ::mypb::dataBody_login* Arena::CreateMaybeMessage<::mypb::dataBody_login>(Arena*);
+template<> ::mypb::dataBody_login_register* Arena::CreateMaybeMessage<::mypb::dataBody_login_register>(Arena*);
 template<> ::mypb::dataHeader* Arena::CreateMaybeMessage<::mypb::dataHeader>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace mypb {
@@ -66,12 +66,13 @@ namespace mypb {
 enum RequestType : int {
   REQUEST_TYPE_LOGIN = 0,
   REQUEST_TYPE_GETDATA = 1,
+  REQUEST_TYPE_REGISTER = 2,
   RequestType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   RequestType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool RequestType_IsValid(int value);
 constexpr RequestType RequestType_MIN = REQUEST_TYPE_LOGIN;
-constexpr RequestType RequestType_MAX = REQUEST_TYPE_GETDATA;
+constexpr RequestType RequestType_MAX = REQUEST_TYPE_REGISTER;
 constexpr int RequestType_ARRAYSIZE = RequestType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RequestType_descriptor();
@@ -211,9 +212,18 @@ class dataHeader final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRequestFieldNumber = 1,
     kBodysizeFieldNumber = 2,
+    kRequestFieldNumber = 1,
   };
+  // fixed64 bodysize = 2;
+  void clear_bodysize();
+  uint64_t bodysize() const;
+  void set_bodysize(uint64_t value);
+  private:
+  uint64_t _internal_bodysize() const;
+  void _internal_set_bodysize(uint64_t value);
+  public:
+
   // .mypb.RequestType request = 1;
   void clear_request();
   ::mypb::RequestType request() const;
@@ -221,15 +231,6 @@ class dataHeader final :
   private:
   ::mypb::RequestType _internal_request() const;
   void _internal_set_request(::mypb::RequestType value);
-  public:
-
-  // int32 bodysize = 2;
-  void clear_bodysize();
-  int32_t bodysize() const;
-  void set_bodysize(int32_t value);
-  private:
-  int32_t _internal_bodysize() const;
-  void _internal_set_bodysize(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:mypb.dataHeader)
@@ -240,8 +241,8 @@ class dataHeader final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    uint64_t bodysize_;
     int request_;
-    int32_t bodysize_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -249,24 +250,24 @@ class dataHeader final :
 };
 // -------------------------------------------------------------------
 
-class dataBody_login final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mypb.dataBody_login) */ {
+class dataBody_login_register final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:mypb.dataBody_login_register) */ {
  public:
-  inline dataBody_login() : dataBody_login(nullptr) {}
-  ~dataBody_login() override;
-  explicit PROTOBUF_CONSTEXPR dataBody_login(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline dataBody_login_register() : dataBody_login_register(nullptr) {}
+  ~dataBody_login_register() override;
+  explicit PROTOBUF_CONSTEXPR dataBody_login_register(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  dataBody_login(const dataBody_login& from);
-  dataBody_login(dataBody_login&& from) noexcept
-    : dataBody_login() {
+  dataBody_login_register(const dataBody_login_register& from);
+  dataBody_login_register(dataBody_login_register&& from) noexcept
+    : dataBody_login_register() {
     *this = ::std::move(from);
   }
 
-  inline dataBody_login& operator=(const dataBody_login& from) {
+  inline dataBody_login_register& operator=(const dataBody_login_register& from) {
     CopyFrom(from);
     return *this;
   }
-  inline dataBody_login& operator=(dataBody_login&& from) noexcept {
+  inline dataBody_login_register& operator=(dataBody_login_register&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -289,20 +290,20 @@ class dataBody_login final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const dataBody_login& default_instance() {
+  static const dataBody_login_register& default_instance() {
     return *internal_default_instance();
   }
-  static inline const dataBody_login* internal_default_instance() {
-    return reinterpret_cast<const dataBody_login*>(
-               &_dataBody_login_default_instance_);
+  static inline const dataBody_login_register* internal_default_instance() {
+    return reinterpret_cast<const dataBody_login_register*>(
+               &_dataBody_login_register_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  friend void swap(dataBody_login& a, dataBody_login& b) {
+  friend void swap(dataBody_login_register& a, dataBody_login_register& b) {
     a.Swap(&b);
   }
-  inline void Swap(dataBody_login* other) {
+  inline void Swap(dataBody_login_register* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -315,7 +316,7 @@ class dataBody_login final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(dataBody_login* other) {
+  void UnsafeArenaSwap(dataBody_login_register* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -323,14 +324,14 @@ class dataBody_login final :
 
   // implements Message ----------------------------------------------
 
-  dataBody_login* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<dataBody_login>(arena);
+  dataBody_login_register* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<dataBody_login_register>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const dataBody_login& from);
+  void CopyFrom(const dataBody_login_register& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const dataBody_login& from) {
-    dataBody_login::MergeImpl(*this, from);
+  void MergeFrom( const dataBody_login_register& from) {
+    dataBody_login_register::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -348,15 +349,15 @@ class dataBody_login final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(dataBody_login* other);
+  void InternalSwap(dataBody_login_register* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "mypb.dataBody_login";
+    return "mypb.dataBody_login_register";
   }
   protected:
-  explicit dataBody_login(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit dataBody_login_register(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -370,21 +371,21 @@ class dataBody_login final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kUserFieldNumber = 1,
+    kUsernameFieldNumber = 1,
     kPasswordFieldNumber = 2,
   };
-  // string user = 1;
-  void clear_user();
-  const std::string& user() const;
+  // string username = 1;
+  void clear_username();
+  const std::string& username() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_user(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_user();
-  PROTOBUF_NODISCARD std::string* release_user();
-  void set_allocated_user(std::string* user);
+  void set_username(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_username();
+  PROTOBUF_NODISCARD std::string* release_username();
+  void set_allocated_username(std::string* username);
   private:
-  const std::string& _internal_user() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user(const std::string& value);
-  std::string* _internal_mutable_user();
+  const std::string& _internal_username() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
   public:
 
   // string password = 2;
@@ -401,7 +402,7 @@ class dataBody_login final :
   std::string* _internal_mutable_password();
   public:
 
-  // @@protoc_insertion_point(class_scope:mypb.dataBody_login)
+  // @@protoc_insertion_point(class_scope:mypb.dataBody_login_register)
  private:
   class _Internal;
 
@@ -409,7 +410,7 @@ class dataBody_login final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -600,116 +601,116 @@ inline void dataHeader::set_request(::mypb::RequestType value) {
   // @@protoc_insertion_point(field_set:mypb.dataHeader.request)
 }
 
-// int32 bodysize = 2;
+// fixed64 bodysize = 2;
 inline void dataHeader::clear_bodysize() {
-  _impl_.bodysize_ = 0;
+  _impl_.bodysize_ = uint64_t{0u};
 }
-inline int32_t dataHeader::_internal_bodysize() const {
+inline uint64_t dataHeader::_internal_bodysize() const {
   return _impl_.bodysize_;
 }
-inline int32_t dataHeader::bodysize() const {
+inline uint64_t dataHeader::bodysize() const {
   // @@protoc_insertion_point(field_get:mypb.dataHeader.bodysize)
   return _internal_bodysize();
 }
-inline void dataHeader::_internal_set_bodysize(int32_t value) {
+inline void dataHeader::_internal_set_bodysize(uint64_t value) {
   
   _impl_.bodysize_ = value;
 }
-inline void dataHeader::set_bodysize(int32_t value) {
+inline void dataHeader::set_bodysize(uint64_t value) {
   _internal_set_bodysize(value);
   // @@protoc_insertion_point(field_set:mypb.dataHeader.bodysize)
 }
 
 // -------------------------------------------------------------------
 
-// dataBody_login
+// dataBody_login_register
 
-// string user = 1;
-inline void dataBody_login::clear_user() {
-  _impl_.user_.ClearToEmpty();
+// string username = 1;
+inline void dataBody_login_register::clear_username() {
+  _impl_.username_.ClearToEmpty();
 }
-inline const std::string& dataBody_login::user() const {
-  // @@protoc_insertion_point(field_get:mypb.dataBody_login.user)
-  return _internal_user();
+inline const std::string& dataBody_login_register::username() const {
+  // @@protoc_insertion_point(field_get:mypb.dataBody_login_register.username)
+  return _internal_username();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void dataBody_login::set_user(ArgT0&& arg0, ArgT... args) {
+void dataBody_login_register::set_username(ArgT0&& arg0, ArgT... args) {
  
- _impl_.user_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:mypb.dataBody_login.user)
+ _impl_.username_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:mypb.dataBody_login_register.username)
 }
-inline std::string* dataBody_login::mutable_user() {
-  std::string* _s = _internal_mutable_user();
-  // @@protoc_insertion_point(field_mutable:mypb.dataBody_login.user)
+inline std::string* dataBody_login_register::mutable_username() {
+  std::string* _s = _internal_mutable_username();
+  // @@protoc_insertion_point(field_mutable:mypb.dataBody_login_register.username)
   return _s;
 }
-inline const std::string& dataBody_login::_internal_user() const {
-  return _impl_.user_.Get();
+inline const std::string& dataBody_login_register::_internal_username() const {
+  return _impl_.username_.Get();
 }
-inline void dataBody_login::_internal_set_user(const std::string& value) {
+inline void dataBody_login_register::_internal_set_username(const std::string& value) {
   
-  _impl_.user_.Set(value, GetArenaForAllocation());
+  _impl_.username_.Set(value, GetArenaForAllocation());
 }
-inline std::string* dataBody_login::_internal_mutable_user() {
+inline std::string* dataBody_login_register::_internal_mutable_username() {
   
-  return _impl_.user_.Mutable(GetArenaForAllocation());
+  return _impl_.username_.Mutable(GetArenaForAllocation());
 }
-inline std::string* dataBody_login::release_user() {
-  // @@protoc_insertion_point(field_release:mypb.dataBody_login.user)
-  return _impl_.user_.Release();
+inline std::string* dataBody_login_register::release_username() {
+  // @@protoc_insertion_point(field_release:mypb.dataBody_login_register.username)
+  return _impl_.username_.Release();
 }
-inline void dataBody_login::set_allocated_user(std::string* user) {
-  if (user != nullptr) {
+inline void dataBody_login_register::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
     
   } else {
     
   }
-  _impl_.user_.SetAllocated(user, GetArenaForAllocation());
+  _impl_.username_.SetAllocated(username, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.user_.IsDefault()) {
-    _impl_.user_.Set("", GetArenaForAllocation());
+  if (_impl_.username_.IsDefault()) {
+    _impl_.username_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:mypb.dataBody_login.user)
+  // @@protoc_insertion_point(field_set_allocated:mypb.dataBody_login_register.username)
 }
 
 // string password = 2;
-inline void dataBody_login::clear_password() {
+inline void dataBody_login_register::clear_password() {
   _impl_.password_.ClearToEmpty();
 }
-inline const std::string& dataBody_login::password() const {
-  // @@protoc_insertion_point(field_get:mypb.dataBody_login.password)
+inline const std::string& dataBody_login_register::password() const {
+  // @@protoc_insertion_point(field_get:mypb.dataBody_login_register.password)
   return _internal_password();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void dataBody_login::set_password(ArgT0&& arg0, ArgT... args) {
+void dataBody_login_register::set_password(ArgT0&& arg0, ArgT... args) {
  
  _impl_.password_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:mypb.dataBody_login.password)
+  // @@protoc_insertion_point(field_set:mypb.dataBody_login_register.password)
 }
-inline std::string* dataBody_login::mutable_password() {
+inline std::string* dataBody_login_register::mutable_password() {
   std::string* _s = _internal_mutable_password();
-  // @@protoc_insertion_point(field_mutable:mypb.dataBody_login.password)
+  // @@protoc_insertion_point(field_mutable:mypb.dataBody_login_register.password)
   return _s;
 }
-inline const std::string& dataBody_login::_internal_password() const {
+inline const std::string& dataBody_login_register::_internal_password() const {
   return _impl_.password_.Get();
 }
-inline void dataBody_login::_internal_set_password(const std::string& value) {
+inline void dataBody_login_register::_internal_set_password(const std::string& value) {
   
   _impl_.password_.Set(value, GetArenaForAllocation());
 }
-inline std::string* dataBody_login::_internal_mutable_password() {
+inline std::string* dataBody_login_register::_internal_mutable_password() {
   
   return _impl_.password_.Mutable(GetArenaForAllocation());
 }
-inline std::string* dataBody_login::release_password() {
-  // @@protoc_insertion_point(field_release:mypb.dataBody_login.password)
+inline std::string* dataBody_login_register::release_password() {
+  // @@protoc_insertion_point(field_release:mypb.dataBody_login_register.password)
   return _impl_.password_.Release();
 }
-inline void dataBody_login::set_allocated_password(std::string* password) {
+inline void dataBody_login_register::set_allocated_password(std::string* password) {
   if (password != nullptr) {
     
   } else {
@@ -721,7 +722,7 @@ inline void dataBody_login::set_allocated_password(std::string* password) {
     _impl_.password_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:mypb.dataBody_login.password)
+  // @@protoc_insertion_point(field_set_allocated:mypb.dataBody_login_register.password)
 }
 
 // -------------------------------------------------------------------
