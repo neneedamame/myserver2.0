@@ -57,6 +57,3 @@ private:
 
 	std::atomic<queueNode*> m_head, m_tail;
 };
-
-static LockFreeQueue<std::function<void(char* buffer)>> Tasks;
-static LockFreeQueue<MYSQL*> Connections;

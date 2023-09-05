@@ -7,10 +7,14 @@
             "command": "g++",
             "args": [
                 "-g", 
+                "-std=c++17",
                 "main.cpp", 
                 "Server.cpp",
+                "Threadspoll.cpp",
+                "Sql_cnn_poll.cpp",
                 "mypb.pb.cc",
                 "-lprotobuf",
+                "-lmysqlclient",
                 "-o", 
                 "server.out"
             ],

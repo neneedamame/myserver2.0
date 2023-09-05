@@ -4,11 +4,12 @@
 #include <netinet/in.h>
 #include <iostream>
 #include <sys/epoll.h>
-#include "Threadspoll.h"
 #include <string>
 #include <unistd.h>
 #include <fcntl.h>
 #include "mypb.pb.h"
+#include "Sql_cnn_poll.h"
+#include "Threadspoll.h"
 
 
 //·Ç×èÈûI/O + ±ßÔµ´¥·¢
@@ -16,13 +17,12 @@
 
 class Server {
 
-	friend class Threadspoll;
-
 private:
 
 	uint16_t m_port;
 	std::string m_sqlUser;
 	std::string m_sqlPassword;
+	std::string m_dbName;
 	int m_backblog;
 
 	int m_fd_server;
@@ -31,27 +31,23 @@ private:
 	struct epoll_event m_events[10240];
 	int m_flags;
 
-	int m_len_header;
+	Sql_cnn_poll m_sql_poll;
 
 public:
 	static size_t m_len_header;
-
-
-private:
-	Threadspoll& m_threadspoll = Threadspoll::getPoll();
-
+	static LockFreeQueue<std::function<void(char* buffer)>> Tasks;
 
 public:
 
-	Server(std::string user, std::string password, uint16_t port = 23720, int backlog = 64);
+	Server(std::string dbName, std::string user, std::string password, uint16_t port = 23720, int backlog = 64);
 	void request_enqueue(int client_fd);
 	void init();
 	void run();
 	void cnn_accept();
+	void cnn_listen();
 
 	static void handle_request(int client_fd, char* buffer);    
-	static void exe_login(int len, char* buffer);
-	static void exe_register(int len, char* buffer);
+	static void exe_login_register(int len, char* buffer, mypb::RequestType type);
 	static void exe_getdata(int len, char* buffer);
 	static void close_cnn(int client_fd);
 };

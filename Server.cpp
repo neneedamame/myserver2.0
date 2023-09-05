@@ -1,8 +1,17 @@
 #include "Server.h"
 
-// 服务器epoll初始化
+LockFreeQueue<std::function<void(char* buffer)>> Server::Tasks;
+size_t Server::m_len_header=[]{
+	mypb::dataHeader header;
+	header.set_request(mypb::REQUEST_TYPE_GETDATA);
+	header.set_bodysize(123);
+	return header.ByteSizeLong();
+}();
+
+// 服务器epoll初始化，mysqlpoll初始化
 void Server::init()
 {
+	m_sql_poll.init(m_sqlUser, m_sqlPassword, m_dbName);
 
 	m_epoll_fd = epoll_create(10);
 	if (-1 == m_epoll_fd)
@@ -36,17 +45,13 @@ void Server::init()
 }
 
 // 数据库用户名，密码；服务器端口号，listen的最大等待数
-Server::Server(std::string user, std::string password, uint16_t port, int backlog)
+Server::Server(std::string dbName, std::string user, std::string password, uint16_t port, int backlog)
 {
+	m_dbName = dbName;
 	m_sqlUser = user;
 	m_sqlPassword = password;
 	m_port = port;
 	m_backblog = backlog;
-
-	mypb::dataHeader header;
-	header.set_request(mypb::REQUEST_TYPE_GETDATA);
-	header.set_bodysize(123);
-	m_len_header = header.ByteSize();
 }
 
 // 把待处理任务扔入任务队列由线程池处理
@@ -71,10 +76,10 @@ void Server::handle_request(int client_fd, char *buffer)
 		switch (header.request())
 		{
 		case mypb::REQUEST_TYPE_LOGIN:
-			Server::exe_login(header.bodysize(), buffer);
+			Server::exe_login_register(header.bodysize(), buffer, mypb::REQUEST_TYPE_LOGIN);
 			break;
 		case mypb::REQUEST_TYPE_REGISTER:
-			Server::exe_register(header.bodysize(), buffer);
+			Server::exe_login_register(header.bodysize(), buffer, mypb::REQUEST_TYPE_REGISTER);
 			break;
 		case mypb::REQUEST_TYPE_GETDATA:
 			Server::exe_getdata(header.bodysize(), buffer);
@@ -85,8 +90,8 @@ void Server::handle_request(int client_fd, char *buffer)
 	}
 }
 
-// 登录
-void Server::exe_login(int len, char *buffer)
+// 登录，注册
+void Server::exe_login_register(int len, char *buffer, mypb::RequestType type)
 {
 	mypb::dataBody_login_register lr;
 	lr.ParseFromArray(buffer, len);
@@ -95,8 +100,8 @@ void Server::exe_login(int len, char *buffer)
 	MYSQL_BIND params[2];
 	memset(params, 0, sizeof(params));
 	MYSQL_STMT *stmt = mysql_stmt_init(cnn.getCnn());
-	std::string query = "SELECT * FROM user_info WHERE username = ? AND password = ?";
-	mysql_stmt_prepare(stmt, query.c_str(), query.size());
+	std::string query;
+	MYSQL_BIND result_bind[2];
 
 	params[0].buffer_type = MYSQL_TYPE_STRING;
 	params[0].buffer = (void *)lr.username().c_str();
@@ -106,22 +111,46 @@ void Server::exe_login(int len, char *buffer)
 	params[1].buffer = (void *)lr.password().c_str();
 	params[1].buffer_length = lr.password().size();
 
-	mysql_stmt_bind_param(stmt, params);
-	mysql_stmt_execute(stmt);
-
-	MYSQL_BIND result_bind[2];
-	mysql_stmt_bind_result(stmt, result_bind);
-	mysql_stmt_store_result(stmt);
-
-	my_ulonglong num_rows = mysql_stmt_num_rows(stmt);
-	if (num_rows == 1)
+	if (type == mypb::REQUEST_TYPE_LOGIN)
 	{
-		//登录成功
+		query = "SELECT * FROM user_info WHERE username = ? AND password = ?";
+		mysql_stmt_prepare(stmt, query.c_str(), query.size());
+		mysql_stmt_bind_param(stmt, params);
+		mysql_stmt_execute(stmt);
+		mysql_stmt_bind_result(stmt, result_bind);
+		mysql_stmt_store_result(stmt);
+		my_ulonglong num_rows = mysql_stmt_num_rows(stmt);
+
+		if (num_rows == 1)
+		{
+			// 登录成功
+		}
+		else
+		{
+			// 登陆失败
+		}
 	}
 	else
 	{
-		//登录失败
+		query = "SELECT * FROM user_info WHERE username = ?";
+		mysql_stmt_prepare(stmt, query.c_str(), query.size());
+		mysql_stmt_bind_param(stmt, &params[0]);
+		mysql_stmt_execute(stmt);
+		mysql_stmt_bind_result(stmt, result_bind);
+		mysql_stmt_store_result(stmt);
+		my_ulonglong num_rows = mysql_stmt_num_rows(stmt);
+
+		if (num_rows == 1)
+		{
+			// 注册失败
+		}
+		else
+		{
+			// 注册成功
+		}
 	}
+
+	mysql_stmt_close(stmt);
 }
 
 // 将接收到的连接注册到内核
@@ -146,6 +175,16 @@ void Server::cnn_accept()
 	}
 }
 
+// 监听
+void Server::cnn_listen()
+{
+	int n = epoll_wait(m_epoll_fd, m_events, 10240, 0);
+	for (int i = 0; i < n; ++i)
+	{
+		request_enqueue(m_events[i].data.fd);
+	}
+}
+
 // 一键启动服务器
 void Server::run()
 {
@@ -155,5 +194,8 @@ void Server::run()
 	socklen_t addrlen = sizeof(sockaddr);
 	while (true)
 	{
+		cnn_accept();
+		cnn_listen();
 	}
 }
+

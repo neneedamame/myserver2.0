@@ -3,6 +3,7 @@
 #include <fstream>
 #include <ctime>
 #include <mutex>
+#include "Server.h"
 
 class Log {
 public:
@@ -55,5 +56,5 @@ public:
 };
 
 
-#define WRITE_ERROR(error_msg) Tasks.enqueue([=] { Log::getInstance().writeError(error_msg); });
-#define WRITE_RUN(run_msg) Tasks.enqueue([=]{ Log::getInstance().writeRun(run_msg); });
+#define WRITE_ERROR(error_msg) Server::Tasks.enqueue([=] { Log::getInstance().writeError(error_msg); });
+#define WRITE_RUN(run_msg) Server::Tasks.enqueue([=]{ Log::getInstance().writeRun(run_msg); });
