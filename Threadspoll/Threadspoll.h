@@ -8,7 +8,6 @@
 #include "Log.h"
 #include "Sql_cnn_poll.h"
 
-class Server;
 
 class Threadspoll {
 private:

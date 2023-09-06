@@ -44,7 +44,7 @@ void Server::init()
 	}
 }
 
-// 数据库用户名，密码；服务器端口号，listen的最大等待数
+// 数据库用户名，密码；服务器端口号，listen的最大等待数，等等
 Server::Server(std::string dbName, std::string user, std::string password, uint16_t port, int backlog)
 {
 	m_dbName = dbName;
@@ -52,12 +52,14 @@ Server::Server(std::string dbName, std::string user, std::string password, uint1
 	m_sqlPassword = password;
 	m_port = port;
 	m_backblog = backlog;
+
+	m_timer_ptr=new Timer(this);
 }
 
 // 把待处理任务扔入任务队列由线程池处理
 void Server::request_enqueue(int client_fd)
 {
-	auto task = std::bind(Server::handle_request, client_fd, std::placeholders::_1);
+	auto task = [this, client_fd](char* buffer){handle_request(client_fd, buffer);};
 	Tasks.emplace(task);
 }
 
@@ -76,18 +78,23 @@ void Server::handle_request(int client_fd, char *buffer)
 		switch (header.request())
 		{
 		case mypb::REQUEST_TYPE_LOGIN:
-			Server::exe_login_register(header.bodysize(), buffer, mypb::REQUEST_TYPE_LOGIN);
+			exe_login_register(header.bodysize(), buffer, mypb::REQUEST_TYPE_LOGIN);
 			break;
 		case mypb::REQUEST_TYPE_REGISTER:
-			Server::exe_login_register(header.bodysize(), buffer, mypb::REQUEST_TYPE_REGISTER);
+			exe_login_register(header.bodysize(), buffer, mypb::REQUEST_TYPE_REGISTER);
 			break;
 		case mypb::REQUEST_TYPE_GETDATA:
-			Server::exe_getdata(header.bodysize(), buffer);
+			exe_getdata(header.bodysize(), buffer);
 			break;
 		default:
-			Server::close_cnn(client_fd);
+			close_cnn(client_fd);
 		}
 	}
+}
+
+void Server::exe_getdata(int len, char* buffer)
+{
+
 }
 
 // 登录，注册
@@ -172,6 +179,7 @@ void Server::cnn_accept()
 		}
 		event.data.fd = cSock;
 		epoll_ctl(m_epoll_fd, EPOLL_CTL_ADD, cSock, &event);
+		m_timer_ptr->add_cnn(cSock, std::chrono::milliseconds(300000), [this, cSock]{close_cnn(cSock);});
 	}
 }
 
@@ -199,3 +207,7 @@ void Server::run()
 	}
 }
 
+void Server::close_cnn(int client_fd)
+{
+	m_timer_ptr->clear(client_fd);
+}

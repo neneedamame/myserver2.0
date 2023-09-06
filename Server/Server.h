@@ -10,12 +10,15 @@
 #include "mypb.pb.h"
 #include "Sql_cnn_poll.h"
 #include "Threadspoll.h"
+#include "Timer.h"
 
+
+class Timer;
 
 //·Ç×èÈûI/O + ±ßÔµ´¥·¢
-
-
 class Server {
+
+friend Timer;
 
 private:
 
@@ -32,6 +35,7 @@ private:
 	int m_flags;
 
 	Sql_cnn_poll m_sql_poll;
+	Timer* m_timer_ptr;
 
 public:
 	static size_t m_len_header;
@@ -45,9 +49,9 @@ public:
 	void run();
 	void cnn_accept();
 	void cnn_listen();
+	void close_cnn(int client_fd);
 
-	static void handle_request(int client_fd, char* buffer);    
-	static void exe_login_register(int len, char* buffer, mypb::RequestType type);
-	static void exe_getdata(int len, char* buffer);
-	static void close_cnn(int client_fd);
+	void handle_request(int client_fd, char* buffer);    
+	void exe_login_register(int len, char* buffer, mypb::RequestType type);
+	void exe_getdata(int len, char* buffer);
 };
